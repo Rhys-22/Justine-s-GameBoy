@@ -62,7 +62,7 @@ const Game: React.FC<{ onExit: () => void }> = ({ onExit }) => {
   const allEnemiesDead = gameState.enemies.length === 0;
 
   return (
-    <div className="fixed inset-0 bg-[#050510] flex flex-col items-center font-mono text-cyan-50 overflow-hidden">
+    <div className="fixed inset-0 w-full h-[100dvh] bg-[#050510] font-mono text-cyan-50 overflow-hidden select-none">
       
       {/* Cyberpunk Grid Background */}
       <div className="absolute inset-0 pointer-events-none">
@@ -70,73 +70,82 @@ const Game: React.FC<{ onExit: () => void }> = ({ onExit }) => {
          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-cyan-900/20 to-transparent"></div>
       </div>
 
-      {/* Cyberpunk HUD - Responsive */}
-      <div className="w-full max-w-4xl px-4 py-2 mt-2 landscape:mt-0 landscape:py-1 z-20 flex justify-between items-start shrink-0">
-        
-        {/* Left Stats Block & Controls */}
-        <div className="flex flex-col gap-2">
-            
-            {/* Menu Controls */}
-            <div className="flex gap-2">
-                 <button onClick={onExit} className="bg-red-900/40 border border-red-500/50 p-2 rounded hover:bg-red-800 transition-colors">
-                    <X size={16} className="text-red-400" />
-                 </button>
-                 <button onClick={togglePause} className="bg-yellow-900/40 border border-yellow-500/50 p-2 rounded hover:bg-yellow-800 transition-colors">
-                    {gameState.paused ? <Play size={16} className="text-yellow-400" /> : <Pause size={16} className="text-yellow-400" />}
-                 </button>
-            </div>
+      {/* Main Content Container with Safe Area Padding */}
+      <div className="relative z-10 w-full h-full flex flex-col items-center 
+           pt-[env(safe-area-inset-top)] 
+           pb-[env(safe-area-inset-bottom)] 
+           pl-[env(safe-area-inset-left)] 
+           pr-[env(safe-area-inset-right)]">
 
-            <div className="flex flex-col gap-1 hidden sm:flex">
-                {/* Time */}
-                <div className="bg-slate-900/80 border-l-2 border-red-500 px-3 py-1 skew-x-[-10deg]">
-                    <div className="flex items-center gap-2 skew-x-[10deg]">
-                        <Clock size={16} className="text-red-500" />
-                        <span className="text-xl font-bold text-red-100 tracking-wider shadow-[0_0_10px_rgba(255,0,0,0.5)]">
-                            {formatTime(gameState.timeLeft)}
-                        </span>
-                    </div>
-                </div>
-            </div>
+        {/* Cyberpunk HUD - Responsive */}
+        <div className="w-full max-w-4xl px-4 py-2 mt-2 landscape:mt-0 landscape:py-1 z-20 flex justify-between items-start shrink-0">
+          
+          {/* Left Stats Block & Controls */}
+          <div className="flex flex-col gap-2">
+              
+              {/* Menu Controls */}
+              <div className="flex gap-2">
+                  <button onClick={onExit} className="bg-red-900/40 border border-red-500/50 p-2 rounded hover:bg-red-800 transition-colors">
+                      <X size={16} className="text-red-400" />
+                  </button>
+                  <button onClick={togglePause} className="bg-yellow-900/40 border border-yellow-500/50 p-2 rounded hover:bg-yellow-800 transition-colors">
+                      {gameState.paused ? <Play size={16} className="text-yellow-400" /> : <Pause size={16} className="text-yellow-400" />}
+                  </button>
+              </div>
+
+              <div className="flex flex-col gap-1 hidden sm:flex">
+                  {/* Time */}
+                  <div className="bg-slate-900/80 border-l-2 border-red-500 px-3 py-1 skew-x-[-10deg]">
+                      <div className="flex items-center gap-2 skew-x-[10deg]">
+                          <Clock size={16} className="text-red-500" />
+                          <span className="text-xl font-bold text-red-100 tracking-wider shadow-[0_0_10px_rgba(255,0,0,0.5)]">
+                              {formatTime(gameState.timeLeft)}
+                          </span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          {/* Center Level Block */}
+          <div className="bg-slate-900/90 border border-cyan-500/30 px-6 py-2 rounded-sm relative mt-2 sm:mt-0 landscape:scale-75 origin-top">
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-cyan-500"></div>
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-cyan-500"></div>
+              <div className="text-[10px] text-cyan-600 font-bold uppercase tracking-[0.3em] text-center">Level</div>
+              <div className="text-3xl font-black text-white text-center drop-shadow-[0_0_5px_rgba(0,255,255,0.8)]">
+                  {gameState.level.toString().padStart(2, '0')}
+              </div>
+          </div>
+          
+          {/* Right Stats Block */}
+          <div className="flex flex-col items-end gap-1 mt-2 sm:mt-0">
+              <div className="bg-slate-900/80 border-r-2 border-cyan-500 px-3 py-1 skew-x-[10deg]">
+                  <div className="skew-x-[-10deg] text-right">
+                      <span className="text-xs text-cyan-700 font-bold uppercase mr-2">Score</span>
+                      <span className="text-xl font-bold text-yellow-400 font-mono">
+                          {gameState.score.toString().padStart(6, '0')}
+                      </span>
+                  </div>
+              </div>
+              
+              {/* Items */}
+              <div className="flex gap-2 mt-1">
+                  <div className="flex items-center gap-1 bg-black/40 px-2 py-0.5 rounded border border-yellow-900">
+                      <span className="font-mono text-xs text-yellow-200">{gameState.player.stats.range}</span>
+                      <Crosshair size={12} className="text-yellow-500" />
+                  </div>
+                  <div className="flex items-center gap-1 bg-black/40 px-2 py-0.5 rounded border border-cyan-900">
+                      <span className="font-mono text-xs text-cyan-200">{(300 / gameState.player.stats.speed).toFixed(1)}</span>
+                      <Zap size={12} className="text-cyan-500" />
+                  </div>
+              </div>
+          </div>
         </div>
 
-        {/* Center Level Block */}
-        <div className="bg-slate-900/90 border border-cyan-500/30 px-6 py-2 rounded-sm relative mt-2 sm:mt-0 landscape:scale-75 origin-top">
-             <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-cyan-500"></div>
-             <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-cyan-500"></div>
-             <div className="text-[10px] text-cyan-600 font-bold uppercase tracking-[0.3em] text-center">Level</div>
-             <div className="text-3xl font-black text-white text-center drop-shadow-[0_0_5px_rgba(0,255,255,0.8)]">
-                {gameState.level.toString().padStart(2, '0')}
-             </div>
+        {/* Game Board Container - Centered and scaled */}
+        {/* Added flex-grow and overflow-hidden to ensure it fits within remaining space */}
+        <div className="flex-grow w-full flex items-center justify-center relative z-10 px-2 overflow-hidden landscape:pb-0 pb-20 md:pb-4">
+          <Board gameState={gameState} />
         </div>
-        
-        {/* Right Stats Block */}
-        <div className="flex flex-col items-end gap-1 mt-2 sm:mt-0">
-            <div className="bg-slate-900/80 border-r-2 border-cyan-500 px-3 py-1 skew-x-[10deg]">
-                 <div className="skew-x-[-10deg] text-right">
-                    <span className="text-xs text-cyan-700 font-bold uppercase mr-2">Score</span>
-                    <span className="text-xl font-bold text-yellow-400 font-mono">
-                        {gameState.score.toString().padStart(6, '0')}
-                    </span>
-                 </div>
-            </div>
-            
-            {/* Items */}
-            <div className="flex gap-2 mt-1">
-                <div className="flex items-center gap-1 bg-black/40 px-2 py-0.5 rounded border border-yellow-900">
-                    <span className="font-mono text-xs text-yellow-200">{gameState.player.stats.range}</span>
-                    <Crosshair size={12} className="text-yellow-500" />
-                </div>
-                <div className="flex items-center gap-1 bg-black/40 px-2 py-0.5 rounded border border-cyan-900">
-                    <span className="font-mono text-xs text-cyan-200">{(300 / gameState.player.stats.speed).toFixed(1)}</span>
-                    <Zap size={12} className="text-cyan-500" />
-                </div>
-            </div>
-        </div>
-      </div>
-
-      {/* Game Board Container - Centered and scaled */}
-      <div className="flex-grow w-full h-full flex items-center justify-center relative z-10 px-2 pb-20 landscape:pb-0 md:pb-4 overflow-hidden">
-        <Board gameState={gameState} />
       </div>
 
       {/* Mobile Controls Overlay - Visible on Large Phones in Landscape */}

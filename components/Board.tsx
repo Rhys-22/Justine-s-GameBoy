@@ -27,6 +27,8 @@ const Board: React.FC<BoardProps> = ({ gameState }) => {
           height: 'auto',
           maxHeight: '100%',
           maxWidth: 'min(100%, 800px)',
+          // Ensure it doesn't grow larger than the container in either dimension
+          objectFit: 'contain'
         }}
       >
         {/* Floor Layer - Themed Grid */}

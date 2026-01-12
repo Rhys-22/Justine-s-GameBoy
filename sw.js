@@ -1,5 +1,6 @@
-const CACHE_NAME = 'neobomber-v2';
+const CACHE_NAME = 'neobomber-v3';
 const urlsToCache = [
+  './',
   './index.html',
   './manifest.json'
 ];
@@ -42,18 +43,18 @@ self.addEventListener('fetch', (event) => {
           });
         })
         .catch(() => {
-          return caches.match('./index.html');
+          // Try to serve the root, then index.html
+          return caches.match('./')
+            .then(response => response || caches.match('./index.html'));
         })
     );
     return;
   }
 
   // Assets: Stale-While-Revalidate
-  // Serve from cache immediately if available, but update cache in background
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       const fetchPromise = fetch(event.request).then((networkResponse) => {
-        // Cache valid responses (including CORS for Tailwind)
         if (networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
@@ -62,8 +63,6 @@ self.addEventListener('fetch', (event) => {
         }
         return networkResponse;
       });
-
-      // Return cached response if available, otherwise wait for network
       return cachedResponse || fetchPromise;
     })
   );
