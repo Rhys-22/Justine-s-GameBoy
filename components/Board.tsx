@@ -22,9 +22,11 @@ const Board: React.FC<BoardProps> = ({ gameState }) => {
       <div 
         className={`relative bg-[#050510] rounded-sm shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden ring-4 ${currentTheme.wallBorder}`}
         style={{
-          width: '100%',
-          maxWidth: '800px',
           aspectRatio: `${GRID_WIDTH}/${GRID_HEIGHT}`,
+          width: '100%',
+          height: 'auto',
+          maxHeight: '100%',
+          maxWidth: 'min(100%, 800px)',
         }}
       >
         {/* Floor Layer - Themed Grid */}

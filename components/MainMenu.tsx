@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Gamepad2, Hammer, Settings, Volume2 } from 'lucide-react';
+import { Gamepad2, Hammer, Settings } from 'lucide-react';
 import { initAudio } from '../utils/soundUtils';
 import VolumeControl from './VolumeControl';
 
@@ -68,7 +68,7 @@ const MainMenu: React.FC<MainMenuProps> = ({ onStartGame }) => {
         <div className="flex items-center gap-2">
             <div className={`w-3 h-3 rounded-full ${hasInteracted ? 'bg-green-500' : 'bg-red-500'}`}></div>
             <span className="text-sm tracking-[0.3em] text-slate-400">
-                {hasInteracted ? 'SYSTEM READY' : 'TAP TO INIT'}
+                {hasInteracted ? 'SYSTEM READY' : 'WAITING INPUT'}
             </span>
         </div>
         <div className="flex items-center gap-4">
@@ -85,15 +85,6 @@ const MainMenu: React.FC<MainMenuProps> = ({ onStartGame }) => {
       {/* Main Content */}
       <div className="relative z-10 flex-grow flex flex-col justify-center items-center">
         
-        {!hasInteracted && (
-            <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in">
-                <div className="flex flex-col items-center gap-4 animate-bounce">
-                    <Volume2 size={48} className="text-cyan-400" />
-                    <span className="text-cyan-400 tracking-widest text-sm font-bold uppercase">Tap anywhere to initialize</span>
-                </div>
-            </div>
-        )}
-
         {showSettings ? (
             <div className="animate-in fade-in zoom-in duration-300" onClick={e => e.stopPropagation()}>
                 <VolumeControl />
@@ -165,7 +156,7 @@ const MainMenu: React.FC<MainMenuProps> = ({ onStartGame }) => {
             </button>
         )}
         
-        <div className="hidden md:flex items-center gap-2 text-slate-500">
+        <div className="hidden lg:flex items-center gap-2 text-slate-500">
              <div className="w-8 h-8 rounded-full border border-slate-700 flex items-center justify-center text-xs">ESC</div>
              <span>BACK</span>
         </div>

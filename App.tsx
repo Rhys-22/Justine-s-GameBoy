@@ -71,7 +71,7 @@ const Game: React.FC<{ onExit: () => void }> = ({ onExit }) => {
       </div>
 
       {/* Cyberpunk HUD - Responsive */}
-      <div className="w-full max-w-4xl px-4 py-2 mt-2 z-20 flex justify-between items-start shrink-0">
+      <div className="w-full max-w-4xl px-4 py-2 mt-2 landscape:mt-0 landscape:py-1 z-20 flex justify-between items-start shrink-0">
         
         {/* Left Stats Block & Controls */}
         <div className="flex flex-col gap-2">
@@ -100,7 +100,7 @@ const Game: React.FC<{ onExit: () => void }> = ({ onExit }) => {
         </div>
 
         {/* Center Level Block */}
-        <div className="bg-slate-900/90 border border-cyan-500/30 px-6 py-2 rounded-sm relative mt-2 sm:mt-0">
+        <div className="bg-slate-900/90 border border-cyan-500/30 px-6 py-2 rounded-sm relative mt-2 sm:mt-0 landscape:scale-75 origin-top">
              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-cyan-500"></div>
              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-cyan-500"></div>
              <div className="text-[10px] text-cyan-600 font-bold uppercase tracking-[0.3em] text-center">Level</div>
@@ -135,12 +135,12 @@ const Game: React.FC<{ onExit: () => void }> = ({ onExit }) => {
       </div>
 
       {/* Game Board Container - Centered and scaled */}
-      <div className="flex-grow w-full flex items-center justify-center relative z-10 px-2 pb-20 md:pb-4">
+      <div className="flex-grow w-full h-full flex items-center justify-center relative z-10 px-2 pb-20 landscape:pb-0 md:pb-4 overflow-hidden">
         <Board gameState={gameState} />
       </div>
 
-      {/* Mobile Controls Overlay */}
-      <div className="md:hidden z-30">
+      {/* Mobile Controls Overlay - Visible on Large Phones in Landscape */}
+      <div className="lg:hidden z-30">
         <TouchControls onMove={movePlayer} onBomb={placeBomb} />
       </div>
 

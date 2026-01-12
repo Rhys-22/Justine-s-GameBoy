@@ -15,11 +15,12 @@ const TouchControls: React.FC<TouchControlsProps> = ({ onMove, onBomb }) => {
       {/* D-Pad Area */}
       {/* 
          Portrait: Bottom Left (bottom-6 left-6)
-         Landscape: Center Left (top-1/2 -translate-y-1/2 left-8)
+         Landscape: Center Left (top-1/2 -translate-y-1/2 left-safe)
       */}
       <div className="absolute w-40 h-40 pointer-events-auto
            bottom-6 left-6 
-           landscape:bottom-auto landscape:top-1/2 landscape:-translate-y-1/2 landscape:left-8
+           landscape:bottom-auto landscape:top-1/2 landscape:-translate-y-1/2
+           landscape:left-[max(2rem,env(safe-area-inset-left))]
       ">
         <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm clip-path-hexagon border border-cyan-900/30"></div>
         
@@ -59,11 +60,12 @@ const TouchControls: React.FC<TouchControlsProps> = ({ onMove, onBomb }) => {
       {/* Action Button - Bomb */}
       {/* 
          Portrait: Bottom Right (bottom-10 right-6)
-         Landscape: Center Right (top-1/2 -translate-y-1/2 right-8)
+         Landscape: Center Right (top-1/2 -translate-y-1/2 right-safe)
       */}
       <div className="absolute pointer-events-auto
            bottom-10 right-6
-           landscape:bottom-auto landscape:top-1/2 landscape:-translate-y-1/2 landscape:right-8
+           landscape:bottom-auto landscape:top-1/2 landscape:-translate-y-1/2
+           landscape:right-[max(2rem,env(safe-area-inset-right))]
       ">
         <button 
             className="w-24 h-24 relative group active:scale-95 transition-transform"
